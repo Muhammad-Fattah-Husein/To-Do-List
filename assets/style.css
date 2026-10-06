@@ -1,0 +1,437 @@
+/* ==========================================================================
+   Design System & Styling for To-Do List
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --font-primary: 'Plus Jakarta Sans', 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    
+    /* Vibrant modern coral/rose accent */
+    --accent-coral: #ff5945;
+    --accent-gradient: linear-gradient(135deg, #ff6b57 0%, #ff3b56 100%);
+    --accent-glow: rgba(255, 75, 92, 0.35);
+
+    /* Text Colors */
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --text-strike: #94a3b8;
+
+    /* Surfaces & Borders */
+    --card-bg: rgba(255, 255, 255, 0.98);
+    --input-bg: #f1f5f9;
+    --item-bg: #f8fafc;
+    --item-border: #f1f5f9;
+    --item-hover-bg: #ffffff;
+    --item-hover-border: #e2e8f0;
+
+    /* Status & Danger */
+    --danger-text: #ef4444;
+    --danger-bg: #fee2e2;
+}
+
+/* Reset */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: var(--font-primary);
+    /* Deep rich aurora twilight background with ambient mesh blooms */
+    background: 
+        radial-gradient(circle at 10% 15%, rgba(99, 102, 241, 0.22) 0%, transparent 45%),
+        radial-gradient(circle at 90% 10%, rgba(236, 72, 153, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(20, 184, 166, 0.16) 0%, transparent 45%),
+        radial-gradient(circle at 15% 90%, rgba(249, 115, 22, 0.14) 0%, transparent 45%),
+        linear-gradient(135deg, #0f172a 0%, #1e1b4b 45%, #2e1065 100%);
+    background-attachment: fixed;
+    padding: 40px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   Card Container
+   ========================================================================== */
+.container {
+    width: 100%;
+    max-width: 520px;
+    margin-top: 40px;
+}
+
+.todo-app {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 28px;
+    padding: 38px 32px 32px;
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    animation: cardEntrance 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Subtle rainbow highlight bar on card top */
+.todo-app::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ff6b57, #ec4899, #8b5cf6, #3b82f6);
+}
+
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* App Header */
+.todo-app h2 {
+    color: var(--text-primary);
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.todo-app h2 img {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    object-fit: contain;
+    border-radius: 8px;
+    filter: drop-shadow(0 3px 6px rgba(59, 130, 246, 0.25));
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.todo-app h2:hover img {
+    transform: rotate(8deg) scale(1.12);
+}
+
+/* ==========================================================================
+   Input Row
+   ========================================================================== */
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--input-bg);
+    border-radius: 50px;
+    padding: 4px 4px 4px 20px;
+    margin-bottom: 24px;
+    border: 2px solid transparent;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.row:focus-within {
+    background: #ffffff;
+    border-color: var(--accent-coral);
+    box-shadow: 
+        0 0 0 4px rgba(255, 89, 69, 0.12),
+        0 10px 20px -4px rgba(255, 89, 69, 0.18);
+}
+
+.row input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 12px 10px 12px 0;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+.row input::placeholder {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.row button {
+    border: none;
+    outline: none;
+    padding: 13px 32px;
+    background: var(--accent-gradient);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    border-radius: 50px;
+    box-shadow: 0 4px 14px var(--accent-glow);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.row button:hover {
+    box-shadow: 0 6px 18px var(--accent-glow);
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+}
+
+.row button:active {
+    transform: translateY(1px) scale(0.97);
+    box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+/* ==========================================================================
+   Task List Items & Drag and Drop
+   ========================================================================== */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* Clean Custom Scrollbar */
+ul::-webkit-scrollbar {
+    width: 5px;
+}
+
+ul::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+ul::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+}
+
+ul::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1;
+}
+
+ul li {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 14px 44px 14px 48px;
+    user-select: none;
+    cursor: grab;
+    position: relative;
+    color: var(--text-primary);
+    line-height: 1.45;
+    word-break: break-word;
+    background: var(--item-bg);
+    border: 1px solid var(--item-border);
+    border-radius: 14px;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+    animation: taskPop 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+ul li:active {
+    cursor: grabbing;
+}
+
+/* Dragging State Visual Cue */
+ul li.dragging {
+    opacity: 0.35;
+    background: #f8fafc;
+    border: 2px dashed var(--accent-coral);
+    transform: scale(0.98);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes taskPop {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+ul li:hover:not(.dragging) {
+    background: var(--item-hover-bg);
+    border-color: var(--item-hover-border);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    transform: translateY(-1px);
+}
+
+/* Custom Checkbox circle */
+ul li::before {
+    content: '';
+    position: absolute;
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    background-color: #ffffff;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+ul li:hover:not(.dragging)::before {
+    border-color: var(--accent-coral);
+    transform: translateY(-50%) scale(1.08);
+}
+
+/* Checked Item State */
+ul li.checked {
+    background: #fafafa;
+    border-color: #f1f5f9;
+    color: var(--text-strike);
+    text-decoration: line-through;
+    text-decoration-color: #cbd5e1;
+    text-decoration-thickness: 1.5px;
+}
+
+ul li.checked::before {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+    background-size: 13px;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 2px 8px var(--accent-glow);
+    transform: translateY(-50%) scale(1.05);
+}
+
+/* Delete Button '×' */
+ul li span.delete-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    font-size: 20px;
+    color: var(--text-muted);
+    line-height: 28px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+ul li span.delete-btn:hover {
+    background: var(--danger-bg);
+    color: var(--danger-text);
+    transform: translateY(-50%) scale(1.15);
+}
+
+/* Slide out animation on delete */
+ul li.fade-out {
+    opacity: 0;
+    transform: translateX(25px) scale(0.95);
+    transition: all 0.22s ease-out;
+}
+
+/* ==========================================================================
+   Empty State & Footer
+   ========================================================================== */
+.empty-msg {
+    text-align: center;
+    padding: 30px 10px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.todo-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid #f1f5f9;
+    font-size: 13px;
+}
+
+#task-count {
+    color: var(--text-secondary);
+    font-weight: 500;
+    background: #f1f5f9;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    letter-spacing: -0.01em;
+}
+
+#clear-all, .clear-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+#clear-all:hover, .clear-btn:hover {
+    color: var(--danger-text);
+    background: var(--danger-bg);
+}
+
+/* ==========================================================================
+   Mobile Responsive
+   ========================================================================== */
+@media (max-width: 480px) {
+    body {
+        padding: 20px 12px;
+    }
+
+    .container {
+        margin-top: 15px;
+    }
+
+    .todo-app {
+        padding: 28px 20px 24px;
+        border-radius: 22px;
+    }
+
+    .todo-app h2 {
+        font-size: 22px;
+    }
+
+    .row {
+        padding-left: 16px;
+    }
+
+    .row button {
+        padding: 12px 22px;
+        font-size: 14px;
+    }
+}
